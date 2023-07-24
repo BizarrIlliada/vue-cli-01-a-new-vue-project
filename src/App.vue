@@ -1,34 +1,38 @@
 <template>
   <section>
     <header>
-      <h1>My friends:</h1>
+      <h1>Add new friend</h1>
     </header>
-    <form action="">
-      <input type="text">
-    </form>
-    <ul>
-      <FriendContact
-        v-for="friend in friends"
-        :key="friend.id"
-        :id="friend.id"
-        :name="friend.name"
-        :phone="friend.phone"
-        :email="friend.email"
-        :isFavorite="friend.isFavorite"
-        @toggleFavorite="changeIsFriendFavorite"
-      />
-    </ul>
+    <NewFriend
+      :id="friends.length + 1"
+      @addNewFriend="addFriend"
+    />
   </section>
+  <h2>My friends:</h2>
+  <ul>
+    <FriendContact
+      v-for="friend in friends"
+      :key="friend.id"
+      :id="friend.id"
+      :name="friend.name"
+      :phone="friend.phone"
+      :email="friend.email"
+      :isFavorite="friend.isFavorite"
+      @toggleFavorite="changeIsFriendFavorite"
+    />
+  </ul>
 </template>
 
 <script>
   import FriendContact from './components/FriendContact.vue';
+  import NewFriend from './components/NewFriend.vue';
 
   export default {
     name: 'App',
     components: {
-      FriendContact,
-    },
+    FriendContact,
+    NewFriend,
+},
 
     data() {
       return {
@@ -64,6 +68,28 @@
 
         currentFriend.isFavorite = !currentFriend.isFavorite;
       },
+
+      addFriend(obj) {
+        const { name, phone, email } = obj;
+
+        if (name.trim().split(' ').length < 2) {
+          console.warn('Enter correct name!');
+          return;
+        }
+
+        if (isNaN(phone.trim().split(' ').join(''))
+        || phone.trim().length < 8) {
+          console.warn('Enter correct phone number!');
+          return;
+        }
+        
+        if (!email.includes('@') || email.length < 8) {
+          console.warn('Enter correct email!');
+          return;
+        }
+
+        this.friends.unshift(obj)
+      }
     },
   }
 </script>
@@ -84,6 +110,7 @@
   header {
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.26);
     margin: 3rem;
+    margin-bottom: 1rem;
     border-radius: 10px;
     padding: 1rem;
     background-color: #1b995e;
@@ -120,6 +147,22 @@
     padding: 0.5rem;
     color: #1f1f1f;
     border-radius: 25px;
+  }
+
+  #app form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 5px;
+    margin-bottom: 3rem;
+  }
+
+  #app input {
+    width: 50%;
+  }
+
+  #app form > button {
+    width: 50%;
   }
 
   #app button {
