@@ -47,6 +47,16 @@
         default: false,
       },
     },
+    emits: {
+      toggleFavorite(id) {
+        if (id) {
+          return true;
+        } else {
+          console.warn('ID is missing!');
+          return false;
+        }
+      }
+    },
 
     data() {
       return {

@@ -3,6 +3,9 @@
     <header>
       <h1>My friends:</h1>
     </header>
+    <form action="">
+      <input type="text">
+    </form>
     <ul>
       <FriendContact
         v-for="friend in friends"
@@ -12,7 +15,7 @@
         :phone="friend.phone"
         :email="friend.email"
         :isFavorite="friend.isFavorite"
-        @toggleFavorite="changeIsFriendFavorite(friend.id)"
+        @toggleFavorite="changeIsFriendFavorite"
       />
     </ul>
   </section>
@@ -22,6 +25,7 @@
   import FriendContact from './components/FriendContact.vue';
 
   export default {
+    name: 'App',
     components: {
       FriendContact,
     },
@@ -59,7 +63,7 @@
         const currentFriend = this.friends.find(friend => friend.id === friendId);
 
         currentFriend.isFavorite = !currentFriend.isFavorite;
-      }
+      },
     },
   }
 </script>
