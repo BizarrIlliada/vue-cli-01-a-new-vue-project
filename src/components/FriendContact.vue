@@ -1,15 +1,18 @@
 <template>
   <li>
-    <h2>{{ friend.name }}</h2>
+    <h2>{{ name }} {{ isFavorite ? '(Favorite)' : '' }}</h2>
     <button @click="showFriendsDetails">
       {{ areDetailsVisible ? 'Hide' : 'Show' }} details
     </button>
+    <button @click="changeFavoriteStatus">
+      Make {{ isFavorite ? 'not' : '' }} favorite
+    </button>
     <ul v-if="areDetailsVisible">
       <li>
-        Phone: {{ friend.phone }}
+        Phone: {{ phone }}
       </li>
       <li>
-        Email: {{ friend.email }}
+        Email: {{ email }}
       </li>
     </ul>
   </li>
@@ -18,7 +21,32 @@
 <script>
   export default {
     name: 'FriendContact',
-    props: ['friend'],
+    props: {
+      id: {
+        type: Number,
+        required: true,
+      },
+      name: {
+        type: String,
+        required: true,
+        validator(value) {
+          return value.trim().split(' ').length >= 2;
+        },
+      },
+      phone: {
+        type: String,
+        required: true,
+      },
+      email: {
+        type: String,
+        required: true,
+      },
+      isFavorite: {
+        type: Boolean,
+        required: false,
+        default: false,
+      },
+    },
 
     data() {
       return {
@@ -29,7 +57,11 @@
     methods: {
       showFriendsDetails() {
         this.areDetailsVisible = !this.areDetailsVisible;
-      }
+      },
+
+      changeFavoriteStatus() {
+        this.$emit('toggleFavorite', this.id)
+      },
     }
   }
 </script>

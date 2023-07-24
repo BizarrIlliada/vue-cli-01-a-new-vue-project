@@ -4,7 +4,16 @@
       <h1>My friends:</h1>
     </header>
     <ul>
-      <FriendContact v-for="friend in friends" :key="friend.id" :friend="friend"/>
+      <FriendContact
+        v-for="friend in friends"
+        :key="friend.id"
+        :id="friend.id"
+        :name="friend.name"
+        :phone="friend.phone"
+        :email="friend.email"
+        :isFavorite="friend.isFavorite"
+        @toggleFavorite="changeIsFriendFavorite(friend.id)"
+      />
     </ul>
   </section>
 </template>
@@ -21,22 +30,37 @@
       return {
         friends: [
           {
-            id: 'manuel',
-            name: 'Manuel Lorenz',
-            phone: '0931312228',
-            email: 'manuel@nigger.black'
+            id: 1,
+            name: 'Illiada Boiko',
+            phone: '093 889 1488',
+            email: 'kazkoviy@icloud.com',
+            isFavorite: true,
           },
           {
-            id: 'illiada',
-            name: 'Illia Boiko',
-            phone: '0938891488',
-            email: 'kazkoviy@icloud.com'
+            id: 2,
+            name: 'Joseph Joestar',
+            phone: '090 090 9090',
+            email: 'jojo@bizarre.com',
+            isFavorite: true,
+          },
+          {
+            id: 3,
+            name: 'Giorno Giovanna',
+            phone: '044 000 1312',
+            email: 'sonof@dio.com',
+            isFavorite: false,
           },
         ],
       }
     },
 
-    methods: {},
+    methods: {
+      changeIsFriendFavorite(friendId) {
+        const currentFriend = this.friends.find(friend => friend.id === friendId);
+
+        currentFriend.isFavorite = !currentFriend.isFavorite;
+      }
+    },
   }
 </script>
 
