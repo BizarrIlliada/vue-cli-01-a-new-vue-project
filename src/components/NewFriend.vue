@@ -2,36 +2,41 @@
   <form
     @submit.prevent="submitForm"
   >
-    <input
-      type="text"
-      placeholder="Name"
-      v-model="name"
-    >
-    <input
-      type="text"
-      placeholder="Phone"
-      v-model="phone"
-    >
-    <input
-      type="text"
-      placeholder="Email"
-      v-model="email"
-    >
-    <button type="submit">
-      Ok
-    </button>
+    <div class="input-container">
+      <label>Name:</label>
+      <input
+        type="text"
+        placeholder="Enter a full name"
+        v-model="name"
+      >
+    </div>
+    <div class="input-container">
+      <label>Phone:</label>
+      <input
+        type="tel"
+        placeholder="Don't use brackets"
+        v-model="phone"
+      >
+    </div>
+    <div class="input-container">
+      <label>Email:</label>
+      <input
+        type="email"
+        placeholder="Enter a valid address"
+        v-model="email"
+      >
+    </div>
+    <div>
+      <button type="submit">
+        Add friend
+      </button>
+    </div>
   </form>
 </template>
 
 <script>
   export default {
     name: 'NewFriend',
-    props: {
-      id: {
-        type: Number,
-        required: true,
-      }
-    },
     emits: ['addNewFriend'],
 
     data() {

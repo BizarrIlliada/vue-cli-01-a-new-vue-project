@@ -4,7 +4,7 @@
     <button @click="showFriendsDetails">
       {{ areDetailsVisible ? 'Hide' : 'Show' }} details
     </button>
-    <button @click="changeFavoriteStatus">
+    <button @click="$emit('toggleFavorite', id)">
       Make {{ isFavorite ? 'not' : '' }} favorite
     </button>
     <ul v-if="areDetailsVisible">
@@ -15,6 +15,11 @@
         Email: {{ email }}
       </li>
     </ul>
+    <div>
+      <button @click="$emit('deleteFriend', id)">
+        Delete friend
+      </button>
+    </div>
   </li>
 </template>
 
@@ -47,16 +52,10 @@
         default: false,
       },
     },
-    emits: {
-      toggleFavorite(id) {
-        if (id) {
-          return true;
-        } else {
-          console.warn('ID is missing!');
-          return false;
-        }
-      }
-    },
+    emits: [
+      'toggleFavorite',
+      'deleteFriend',
+    ],
 
     data() {
       return {
@@ -67,10 +66,6 @@
     methods: {
       showFriendsDetails() {
         this.areDetailsVisible = !this.areDetailsVisible;
-      },
-
-      changeFavoriteStatus() {
-        this.$emit('toggleFavorite', this.id)
       },
     }
   }

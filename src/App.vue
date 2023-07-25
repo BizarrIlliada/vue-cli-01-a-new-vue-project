@@ -4,11 +4,10 @@
       <h1>Add new friend</h1>
     </header>
     <NewFriend
-      :id="friends.length + 1"
       @addNewFriend="addFriend"
     />
   </section>
-  <h2>My friends:</h2>
+  <h2 v-if="friends.length">My friends:</h2>
   <ul>
     <FriendContact
       v-for="friend in friends"
@@ -19,6 +18,7 @@
       :email="friend.email"
       :isFavorite="friend.isFavorite"
       @toggleFavorite="changeIsFriendFavorite"
+      @deleteFriend="deleteFriendFromArray"
     />
   </ul>
 </template>
@@ -71,6 +71,8 @@
 
       addFriend(obj) {
         const { name, phone, email } = obj;
+        obj.isFavorite = false;
+        obj.id = new Date().getTime();
 
         if (name.trim().split(' ').length < 2) {
           console.warn('Enter correct name!');
@@ -87,9 +89,16 @@
           console.warn('Enter correct email!');
           return;
         }
+        console.log(obj);
 
         this.friends.unshift(obj)
-      }
+      },
+
+      deleteFriendFromArray(friendId) {
+        const currentFriendIndex = this.friends.findIndex(friend => friend.id === friendId)
+
+        this.friends.splice(currentFriendIndex, 1)
+      },
     },
   }
 </script>
@@ -157,14 +166,6 @@
     margin-bottom: 3rem;
   }
 
-  #app input {
-    width: 50%;
-  }
-
-  #app form > button {
-    width: 50%;
-  }
-
   #app button {
     font: inherit;
     cursor: pointer;
@@ -180,5 +181,11 @@
     background-color: #ec3169;
     border-color: #ec3169;
     box-shadow: 1px 1px 4px rgba(0, 0, 0, 0.26);
+  }
+
+  .input-container {
+    display: flex;
+    justify-content: space-between;
+    width: 220px;
   }
 </style>
